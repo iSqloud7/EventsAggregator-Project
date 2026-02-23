@@ -1,0 +1,12 @@
+# Web scraping
+selenium==4.17.1
+beautifulsoup4==4.12.2
+requests==2.32.1
+webdriver-manager==4.0.2
+
+# Database
+SQLAlchemy==2.0.22
+psycopg2-binary==2.9.9
+
+# Utility
+python-dotenv==1.0.0
