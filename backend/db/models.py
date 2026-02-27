@@ -14,3 +14,16 @@ class Event(Base):
     date_start = Column(String, nullable=True)
     city      = Column(String, nullable=True)
     description    = Column(String, nullable=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "image": self.image,
+            "location": self.location,
+            "city": self.city,
+            "price": self.price,
+            "date_start": self.date_start,
+            "time_start": self.time_start,
+            "description": self.description
+        }
