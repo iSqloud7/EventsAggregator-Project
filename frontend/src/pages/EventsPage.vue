@@ -7,7 +7,7 @@ const events = ref([])
 const selectedEvent = ref(null)
 
 onMounted(async () => {
-  const res = await fetch("http://127.0.0.1:5000/events")
+  const res = await fetch("http://localhost:8080/api/events")
   events.value = await res.json()
 })
 

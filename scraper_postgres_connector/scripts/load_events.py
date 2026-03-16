@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
-from backend.services.event_service import load_events_from_json
+from scraper_postgres_connector.services.event_service import load_events_from_json
 
-file_path = Path("mktickets-scraper/events-output/events.json")
+file_path = Path("mktickets_scraper/events-output/events.json")
 
 with open(file_path, encoding="utf-8") as f:
     events = json.load(f)

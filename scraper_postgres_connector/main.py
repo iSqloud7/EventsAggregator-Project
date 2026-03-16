@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from backend.db.database import Session
-from backend.db.models import Event
+from scraper_postgres_connector.db.database import Session
+from scraper_postgres_connector.db.models import Event
 
 app = Flask(__name__)
 CORS(app)
