@@ -10,17 +10,55 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "image_url")
     private String image;
+
+    @Column(name = "location")
     private String location;
+
+    @Column(name = "price")
     private String price;
+
     @Column(name = "time_start")
     private String timeStart;
+
     @Column(name = "date_start")
     private String dateStart;
+
+    @Column(name = "city")
     private String city;
-    @Column(columnDefinition = "TEXT")
+
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    public Event() {
+    }
+
+    public Event(String title, String image, String location, String price, String timeStart, String dateStart, String city, String description) {
+        this.title = title;
+        this.image = image;
+        this.location = location;
+        this.price = price;
+        this.timeStart = timeStart;
+        this.dateStart = dateStart;
+        this.city = city;
+        this.description = description;
+    }
+
+    public Event(Long id, String title, String image, String location, String price, String timeStart, String dateStart, String city, String description) {
+        this.id = id;
+        this.title = title;
+        this.image = image;
+        this.location = location;
+        this.price = price;
+        this.timeStart = timeStart;
+        this.dateStart = dateStart;
+        this.city = city;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;

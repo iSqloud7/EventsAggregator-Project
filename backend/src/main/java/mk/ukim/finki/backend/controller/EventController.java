@@ -1,7 +1,8 @@
 package mk.ukim.finki.backend.controller;
 
-import mk.ukim.finki.backend.dto.EventDTO;
-import mk.ukim.finki.backend.service.EventService;
+import mk.ukim.finki.backend.dto.event_dto.CreateEventDTO;
+import mk.ukim.finki.backend.dto.event_dto.DisplayEventDTO;
+import mk.ukim.finki.backend.service.application.EventApplicationService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,27 +12,49 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class EventController {
 
-    private final EventService eventService;
+    private final EventApplicationService eventApplicationService;
 
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
+    public EventController(EventApplicationService eventApplicationService) {
+        this.eventApplicationService = eventApplicationService;
     }
 
     @GetMapping
-    public List<EventDTO> getAllEvents() {
-        return eventService.getAllEvents();
+    public List<DisplayEventDTO> getAll() {
+        return this.eventApplicationService.findAll();
     }
 
     @GetMapping("/{id}")
-    public EventDTO getEventById(@PathVariable Long id) {
-        return eventService.getEventById(id);
+    public DisplayEventDTO getById(@PathVariable Long id) {
+        return this.eventApplicationService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found!"));
     }
-    @GetMapping("/city/{city}")
-    public List<EventDTO> getEventsByCity(@PathVariable String city) {
-        return eventService.getEventsByCity(city);
+
+    public List<DisplayEventDTO> filter(
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String dateStart,
+            @RequestParam(required = false) String keyword
+    ) {
+        return this.eventApplicationService.filter(city, dateStart, keyword);
     }
-    @GetMapping("/search")
-    public List<EventDTO> searchEvents(@RequestParam String keyword) {
-        return eventService.searchEvents(keyword);
+
+    @PostMapping("/add-event")
+    public DisplayEventDTO create(@RequestBody CreateEventDTO createEventDTO) {
+
+        return this.eventApplicationService.create(createEventDTO)
+                .orElseThrow(() -> new RuntimeException("Event not created!"));
+    }
+
+    @PutMapping("/edit-event/{id}")
+    public DisplayEventDTO update(
+            @PathVariable Long id,
+            @RequestBody CreateEventDTO createEventDTO) {
+
+        return this.eventApplicationService.update(id, createEventDTO)
+                .orElseThrow(() -> new RuntimeException("Event not found!"));
+    }
+
+    @DeleteMapping("/delete-event/{id}")
+    public void delete(@PathVariable Long id){
+        this.eventApplicationService.delete(id);
     }
 }
