@@ -3,10 +3,11 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
 
-# load .env
+# Load environment variables from .env file.
 load_dotenv()
-DB_URL = os.getenv("DB_URL")
 
-# engine и session
-engine = create_engine(DB_URL, echo=True)
+# Create database engine using the DB_URL from .env.
+engine = create_engine(os.getenv("DB_URL"), echo=True)
+
+# Create a session factory bound to the engine.
 Session = sessionmaker(bind=engine)
