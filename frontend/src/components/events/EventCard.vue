@@ -10,13 +10,13 @@
       <h3 class="card-title">{{ event.title }}</h3>
 
       <div class="card-meta">
-        <span v-if="event.date_start" class="meta-item">
+        <span v-if="event.dateStart" class="meta-item">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          {{ event.date_start }}
+          {{ event.dateStart }}
         </span>
-        <span v-if="event.time_start" class="meta-item">
+        <span v-if="event.timeStart" class="meta-item">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          {{ event.time_start }}
+          {{ event.timeStart }}
         </span>
         <span v-if="event.location" class="meta-item">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -25,14 +25,25 @@
       </div>
 
       <div class="card-footer">
-        <span class="card-price" v-if="event.price">{{ event.price }}</span>
-        <span class="card-price free" v-else>Free</span>
+  <span class="card-price" v-if="event.price">{{ event.price }}</span>
+  <span class="card-price free" v-else>Free</span>
 
-        <div v-if="auth.isAdmin" class="card-actions" @click.stop>
-          <RouterLink :to="`/events/edit/${event.id}`" class="btn btn-ghost btn-sm">Edit</RouterLink>
-          <button class="btn btn-danger btn-sm" @click="confirmDelete">Delete</button>
-        </div>
-      </div>
+  <div class="card-actions" @click.stop>
+    <button
+      v-if="auth.isLoggedIn"
+      class="btn btn-ghost btn-sm wishlist-btn"
+      @click="toggleWishlist"
+      :title="isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'"
+    >
+      {{ isWishlisted ? '❤️' : '🤍' }}
+    </button>
+
+        <div v-if="auth.isAdmin || auth.isDeveloper" class="card-actions" @click.stop>
+      <RouterLink :to="`/events/edit/${event.id}`" class="btn btn-ghost btn-sm">Edit</RouterLink>
+      <button class="btn btn-danger btn-sm" @click="confirmDelete">Delete</button>
+    </div>
+  </div>
+</div>
     </div>
 
     <!-- Delete confirm modal -->
@@ -49,17 +60,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthStore }  from '@/stores/authStore'
 import { useEventStore } from '@/stores/eventStore'
+import { useWishlistStore } from '@/stores/wishlistStore'
 import AppModal from '@/components/common/AppModal.vue'
 
 const props = defineProps({ event: { type: Object, required: true } })
 
 const auth            = useAuthStore()
 const eventStore      = useEventStore()
+const wishlistStore   = useWishlistStore()
 const showDeleteModal = ref(false)
 const deleting        = ref(false)
+
+const isWishlisted = computed(() => wishlistStore.isInWishlist(props.event.id))
+
+async function toggleWishlist() {
+  if (isWishlisted.value) {
+    await wishlistStore.removeFromWishlist(props.event.id)
+  } else {
+    await wishlistStore.addToWishlist(props.event.id)
+  }
+}
 
 function confirmDelete() { showDeleteModal.value = true }
 

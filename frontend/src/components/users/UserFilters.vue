@@ -11,7 +11,8 @@
         <select v-model="localFilters.role" @change="emitFilters">
           <option value="">All roles</option>
           <option value="ADMIN">Admin</option>
-          <option value="USER">User</option>
+          <option value="CLIENT">Client</option>
+          <option value="DEVELOPER">Developer</option>
         </select>
       </div>
       <button class="btn btn-ghost btn-sm" @click="clearFilters">Clear</button>

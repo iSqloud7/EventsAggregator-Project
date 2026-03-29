@@ -6,5 +6,6 @@ export const userApi = {
   getByRole:          (role)           => api.get('/users/by-role', { params: { role } }),
   getByName:          (name)           => api.get('/users/by-name', { params: { name } }),
   getBySurname:       (surname)        => api.get('/users/by-surname', { params: { surname } }),
+  getAll: () => api.get('/users'),
   getByNameAndSurname:(name, surname)  => api.get('/users/by-name-and-surname', { params: { name, surname } })
 }

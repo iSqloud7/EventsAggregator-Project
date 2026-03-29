@@ -3,7 +3,7 @@
     <div class="container">
       <div class="page-header fade-up-1">
         <h1 class="page-title">ALL <span class="accent">EVENTS</span></h1>
-        <RouterLink v-if="auth.isAdmin" to="/events/add" class="btn btn-primary">+ Add Event</RouterLink>
+        <RouterLink v-if="auth.isAdmin || auth.isDeveloper" to="/events/add" class="btn btn-primary">+ Add Event</RouterLink>
       </div>
 
       <EventFilters class="fade-up-2" @filter="handleFilter" />
@@ -32,7 +32,6 @@
         </div>
 
         <div v-else class="empty-state">
-          <div class="icon">🎭</div>
           <p>No events found matching your filters.</p>
         </div>
       </template>
@@ -50,34 +49,52 @@ import EventFilters from '@/components/events/EventFilters.vue'
 const auth       = useAuthStore()
 const eventStore = useEventStore()
 
-const activeFilters = ref({ keyword: '', city: '', dateStart: '' })
+const activeFilters = ref({ keyword: '', city: '', month: '' })
+
+function transliterate(text) {
+  const map = {
+    'а':'a','б':'b','в':'v','г':'g','д':'d','ѓ':'gj','е':'e',
+    'ж':'zh','з':'z','ѕ':'dz','и':'i','ј':'j','к':'k','л':'l',
+    'љ':'lj','м':'m','н':'n','њ':'nj','о':'o','п':'p','р':'r',
+    'с':'s','т':'t','ќ':'kj','у':'u','ф':'f','х':'h','ц':'c',
+    'ч':'ch','џ':'dzh','ш':'sh'
+  }
+  return text.toLowerCase().split('').map(c => map[c] || c).join('')
+}
 
 const filteredEvents = computed(() => {
   let list = eventStore.events
-  const { keyword, city } = activeFilters.value
+  const { keyword, city, month } = activeFilters.value
 
   if (keyword) {
-    const q = keyword.toLowerCase()
+    const q = transliterate(keyword.toLowerCase())
     list = list.filter(e =>
-      e.title?.toLowerCase().includes(q) ||
-      e.description?.toLowerCase().includes(q) ||
-      e.location?.toLowerCase().includes(q)
+      transliterate(e.title?.toLowerCase() || '').includes(q) ||
+      transliterate(e.description?.toLowerCase() || '').includes(q) ||
+      transliterate(e.location?.toLowerCase() || '').includes(q)
     )
   }
+
   if (city) {
-    list = list.filter(e => e.city?.toLowerCase().includes(city.toLowerCase()))
+    list = list.filter(e =>
+      transliterate(e.city?.toLowerCase() || '').includes(transliterate(city.toLowerCase())) ||
+      e.city?.toLowerCase().includes(city.toLowerCase())
+    )
   }
+
+  if (month) {
+    list = list.filter(e => {
+      if (!e.dateStart) return false
+      const parts = e.dateStart.split('-')
+      return parts[1] === month
+    })
+  }
+
   return list
 })
 
 function handleFilter(filters) {
   activeFilters.value = filters
-  // If backend filtering needed:
-  // if (filters.city || filters.dateStart || filters.keyword) {
-  //   eventStore.filterEvents(filters.city, filters.dateStart, filters.keyword)
-  // } else {
-  //   eventStore.fetchAll()
-  // }
 }
 
 onMounted(() => eventStore.fetchAll())

@@ -34,13 +34,13 @@
           <!-- Sidebar -->
           <aside class="detail-sidebar fade-up-2">
             <div class="info-card">
-              <div class="info-row" v-if="event.date_start">
+              <div class="info-row" v-if="event.dateStart">
                 <span class="info-label">Date</span>
-                <span class="info-value">{{ event.date_start }}</span>
+                <span class="info-value">{{ event.dateStart }}</span>
               </div>
-              <div class="info-row" v-if="event.time_start">
+              <div class="info-row" v-if="event.timeStart">
                 <span class="info-label">Time</span>
-                <span class="info-value">{{ event.time_start }}</span>
+                <span class="info-value">{{ event.timeStart }}</span>
               </div>
               <div class="info-row" v-if="event.location">
                 <span class="info-label">Venue</span>
@@ -60,7 +60,7 @@
               </div>
             </div>
 
-            <div class="sidebar-actions" v-if="auth.isAdmin">
+            <div class="sidebar-actions" v-if="auth.isAdmin || auth.isDeveloper">
               <RouterLink :to="`/events/edit/${event.id}`" class="btn btn-ghost" style="width:100%; justify-content:center">Edit Event</RouterLink>
               <button class="btn btn-danger" style="width:100%; justify-content:center" @click="showDelete = true">Delete Event</button>
             </div>

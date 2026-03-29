@@ -52,11 +52,11 @@ function handleFilter({ name, surname, role }) {
   } else if (surname) {
     userStore.fetchBySurname(surname)
   } else {
-    userStore.fetchByRole('')
+    userStore.fetchAll()
   }
 }
 
-onMounted(() => userStore.fetchByRole(''))
+onMounted(() => userStore.fetchAll())
 </script>
 
 <style scoped>

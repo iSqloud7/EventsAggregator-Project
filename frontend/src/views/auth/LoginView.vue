@@ -45,6 +45,7 @@ const loading = computed(() => false)
 const form = reactive({ username: '', password: '' })
 
 async function handleLogin() {
+  auth.error = null
   const ok = await auth.login({ username: form.username, password: form.password })
   if (ok) router.push('/')
 }

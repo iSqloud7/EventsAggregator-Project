@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base
 
-# Base class for all SQLAlchemy models.
 Base = declarative_base()
 
 
@@ -9,8 +8,6 @@ class Event(Base):
     __tablename__ = "events"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-
-    # Event details.
     title = Column(String, nullable=False)
     image = Column(String, nullable=True)
     location = Column(String, nullable=True)
@@ -20,7 +17,6 @@ class Event(Base):
     city = Column(String, nullable=True)
     description = Column(String, nullable=True)
 
-    # Serialize event to dictionary (used for API responses).
     def to_dict(self):
         return {
             "id": self.id,
@@ -33,3 +29,22 @@ class Event(Base):
             "time_start": self.time_start,
             "description": self.description
         }
+
+
+class Wishlist(Base):
+    __tablename__ = "wishlists"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=False)
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
+    name = Column(String, nullable=True)
+    surname = Column(String, nullable=True)
+    role = Column(String, nullable=True)

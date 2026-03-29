@@ -88,11 +88,10 @@ async function handleRegister() {
     name: form.name,
     surname: form.surname,
     username: form.username,
-    email: form.email,
     password: form.password,
-    role: form.role
+    userRole: form.role.toUpperCase()
   })
-  if (ok) router.push('/')
+  if (ok) router.push('/login')
 }
 </script>
 

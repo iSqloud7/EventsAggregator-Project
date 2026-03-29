@@ -15,6 +15,19 @@
 <script setup>
 import AppNavbar from '@/components/common/AppNavbar.vue'
 import AppFooter from '@/components/common/AppFooter.vue'
+import { onMounted } from 'vue'
+import { useAuthStore } from '@/stores/authStore'
+import { useWishlistStore } from '@/stores/wishlistStore'
+
+const auth = useAuthStore()
+const wishlistStore = useWishlistStore()
+
+onMounted(async () => {
+  if (auth.isLoggedIn) {
+    await wishlistStore.fetchWishlist()
+  }
+})
+
 </script>
 
 <style>

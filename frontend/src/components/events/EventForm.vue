@@ -16,7 +16,7 @@
     <div class="form-row">
       <div class="form-group">
         <label>Date</label>
-        <input v-model="form.dateStart" type="text" placeholder="e.g. 25.04.2025" />
+        <input v-model="form.dateStart" type="text" placeholder="e.g. 25-04-2025" />
       </div>
       <div class="form-group">
         <label>Time</label>
@@ -24,7 +24,7 @@
       </div>
       <div class="form-group">
         <label>Price</label>
-        <input v-model="form.price" type="text" placeholder="e.g. 500 MKD" />
+        <input v-model="form.price" type="text" placeholder="e.g. 500мкд." />
       </div>
     </div>
 
@@ -72,8 +72,8 @@ const form = reactive({
   title:       props.initialData?.title       || '',
   city:        props.initialData?.city        || '',
   location:    props.initialData?.location    || '',
-  dateStart:   props.initialData?.date_start  || '',
-  timeStart:   props.initialData?.time_start  || '',
+  dateStart:   props.initialData?.dateStart  || '',
+  timeStart:   props.initialData?.timeStart  || '',
   price:       props.initialData?.price       || '',
   image:       props.initialData?.image       || '',
   description: props.initialData?.description || ''
@@ -84,8 +84,8 @@ async function handleSubmit() {
     title:       form.title,
     city:        form.city,
     location:    form.location,
-    date_start:  form.dateStart,
-    time_start:  form.timeStart,
+    dateStart:  form.dateStart,
+    timeStart:  form.timeStart,
     price:       form.price,
     image:       form.image,
     description: form.description
@@ -98,7 +98,7 @@ async function handleSubmit() {
     result = await eventStore.createEvent(payload)
   }
 
-  if (result) router.push('/events')
+  if (result) router.back()
 }
 </script>
 
