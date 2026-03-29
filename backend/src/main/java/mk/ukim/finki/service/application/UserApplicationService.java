@@ -22,4 +22,5 @@ public interface UserApplicationService {
     List<DisplayUserDTO> findBySurname(String surname);
 
     List<DisplayUserDTO> findByNameAndSurname(String name, String surname);
+    List<DisplayUserDTO> findAll();
 }

@@ -29,13 +29,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
     @Override
     public Optional<DisplayUserDTO> register(RegisterUserDTO registerUserDTO) {
-        User user = new User(
-                registerUserDTO.username(),
-                registerUserDTO.password(),
-                registerUserDTO.name(),
-                registerUserDTO.surname(),
-                UserRole.CLIENT
-        );
+        User user = registerUserDTO.toUser();
 
         return this.userDomainService.register(user)
                 .map(DisplayUserDTO::from);
@@ -72,6 +66,13 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     public List<DisplayUserDTO> findByNameAndSurname(String name, String surname) {
         return DisplayUserDTO.from(
                 this.userDomainService.findByNameAndSurname(name, surname)
+        );
+    }
+
+    @Override
+    public List<DisplayUserDTO> findAll() {
+        return DisplayUserDTO.from(
+                this.userDomainService.findAll()
         );
     }
 }

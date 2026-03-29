@@ -57,4 +57,9 @@ public class UserController {
 
         return this.userApplicationService.findByNameAndSurname(name, surname);
     }
+
+    @GetMapping
+    public List<DisplayUserDTO> getAll() {
+        return this.userApplicationService.findAll();
+    }
 }

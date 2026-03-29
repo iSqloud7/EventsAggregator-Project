@@ -34,8 +34,10 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
     public Optional<User> login(String username, String password) {
-        return this.userRepository.findByUsername(username)
-                .filter(user -> user.getPassword().equals(password));
+        if (username == null || password == null) return Optional.empty();
+
+        return this.userRepository.findByUsername(username.trim())
+                .filter(user -> user.getPassword().trim().equals(password.trim()));
     }
 
     @Override
@@ -51,6 +53,11 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Override
     public List<User> findBySurname(String surname) {
         return this.userRepository.findBySurnameContainingIgnoreCase(surname);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return this.userRepository.findAll();
     }
 
     @Override

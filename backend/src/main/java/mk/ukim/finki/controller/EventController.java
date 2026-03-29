@@ -30,6 +30,8 @@ public class EventController {
                 .orElseThrow(() -> new RuntimeException("Event not found!"));
     }
 
+
+    @GetMapping("/filter")
     public List<DisplayEventDTO> filter(
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String dateStart,

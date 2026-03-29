@@ -21,4 +21,6 @@ public interface UserDomainService {
     List<User> findBySurname(String surname);
 
     List<User> findByNameAndSurname(String name, String surname);
+
+    List<User> findAll();
 }

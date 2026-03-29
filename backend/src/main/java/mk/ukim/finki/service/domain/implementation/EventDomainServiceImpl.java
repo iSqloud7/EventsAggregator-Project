@@ -1,7 +1,9 @@
 package mk.ukim.finki.service.domain.implementation;
 
+import jakarta.transaction.Transactional;
 import mk.ukim.finki.model.entities.Event;
 import mk.ukim.finki.repository.EventRepository;
+import mk.ukim.finki.repository.WishlistRepository;
 import mk.ukim.finki.service.domain.EventDomainService;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,11 @@ import java.util.Optional;
 public class EventDomainServiceImpl implements EventDomainService {
 
     private final EventRepository eventRepository;
+    private final WishlistRepository wishlistRepository;
 
-    public EventDomainServiceImpl(EventRepository eventRepository) {
+    public EventDomainServiceImpl(EventRepository eventRepository, WishlistRepository wishlistRepository) {
         this.eventRepository = eventRepository;
+        this.wishlistRepository = wishlistRepository;
     }
 
     @Override
@@ -31,11 +35,11 @@ public class EventDomainServiceImpl implements EventDomainService {
             existing_event.setTitle(event.getTitle());
             existing_event.setImage(event.getImage());
             existing_event.setLocation(event.getLocation());
-            existing_event.setLocation(event.getPrice());
+            existing_event.setPrice(event.getPrice());
             existing_event.setTimeStart(event.getTimeStart());
             existing_event.setDateStart(event.getDateStart());
             existing_event.setCity(event.getCity());
-            existing_event.setCity(event.getDescription());
+            existing_event.setDescription(event.getDescription());
 
             return Optional.of(this.eventRepository.save(existing_event));
         }
@@ -43,8 +47,10 @@ public class EventDomainServiceImpl implements EventDomainService {
         return Optional.empty();
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
+        wishlistRepository.deleteByEventId(id);
         this.eventRepository.deleteById(id);
     }
 

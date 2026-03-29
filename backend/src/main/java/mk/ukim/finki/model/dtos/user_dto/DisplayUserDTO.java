@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public record DisplayUserDTO(
 
-        Long ID,
+        Long id,
         String username,
         String password,
         String name,
