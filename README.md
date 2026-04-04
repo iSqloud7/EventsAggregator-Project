@@ -77,8 +77,8 @@ Before starting, make sure you have the following installed:
 
 ### Step 1 — Clone the Repository
 ```bash
-git clone https://github.com/your-username/EventsMK.git
-cd EventsMK
+git clone https://github.com/iSqloud7/EventsAggregator-Project.git
+cd EventsAggregator-Project
 ```
 
 ---
@@ -224,16 +224,3 @@ The frontend will start at: `http://localhost:5173`
 | POST | /api/wishlist/{userId}/{eventId} | Add to wishlist | Auth |
 | DELETE | /api/wishlist/{userId}/{eventId} | Remove from wishlist | Auth |
 | GET | /api/stats | Get statistics | Admin/Developer |
-
----
-
-## Default Run Order
-
-Create PostgreSQL database
-Configure application.properties
-Set up Python venv and install requirements
-Configure .env for scraper
-Run populate_db to create tables and seed data
-Start the scheduler (optional, for auto-sync)
-Run the Spring Boot backend
-Run the Vue frontendgit add README.md
