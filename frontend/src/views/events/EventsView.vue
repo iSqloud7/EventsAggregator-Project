@@ -34,6 +34,11 @@
         <div v-else class="empty-state">
           <p>No events found matching your filters.</p>
         </div>
+         <div class="pagination" v-if="totalPages > 1">
+            <button class="btn btn-ghost btn-sm" :disabled="currentPage === 1" @click="currentPage--">← Prev</button>
+            <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+            <button class="btn btn-ghost btn-sm" :disabled="currentPage === totalPages" @click="currentPage++">Next →</button>
+        </div>
       </template>
     </div>
   </div>
@@ -92,9 +97,19 @@ const filteredEvents = computed(() => {
 
   return list
 })
+const currentPage = ref(1)
+const pageSize = 9
+
+const paginatedEvents = computed(() => {
+  const start = (currentPage.value - 1) * pageSize
+  return filteredEvents.value.slice(start, start + pageSize)
+})
+
+const totalPages = computed(() => Math.ceil(filteredEvents.value.length / pageSize))
 
 function handleFilter(filters) {
   activeFilters.value = filters
+  currentPage.value = 1
 }
 
 onMounted(() => eventStore.fetchAll())
@@ -124,5 +139,16 @@ onMounted(() => eventStore.fetchAll())
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.page-info {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 </style>
