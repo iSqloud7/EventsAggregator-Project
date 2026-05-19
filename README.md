@@ -1,4 +1,4 @@
-<img width="838" height="204" alt="image" src="https://github.com/user-attachments/assets/bb4142f1-e341-40c4-8b7f-231e172ed78e" /># 🎟️ EventsMK — Events Aggregator Platform
+# 🎟️ EventsMK — Events Aggregator Platform
 
 > **EventsMK** is a full-stack web application that automatically aggregates events from various Macedonian event websites every 24 hours. It serves as a centralized hub where users can discover, save, and explore upcoming events — all in one place.
 
@@ -103,7 +103,7 @@ Download and install Python from [python.org](https://www.python.org). During in
 ```bash
 git clone <repository-url>
 cd EventsAggregator-Project
-<img width="975" height="271" alt="image" src="https://github.com/user-attachments/assets/b23d23e0-d86d-4593-9a95-ec5563a36a69" />
+<img width="1008" height="278" alt="1" src="https://github.com/user-attachments/assets/f4502b56-9b7b-438d-b93c-aa1c1e92c328" />
 ```
 
 ---
