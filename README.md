@@ -103,7 +103,6 @@ Download and install Python from [python.org](https://www.python.org). During in
 ```bash
 git clone <repository-url>
 cd EventsAggregator-Project
-<img width="1008" height="278" alt="1" src="https://github.com/user-attachments/assets/f4502b56-9b7b-438d-b93c-aa1c1e92c328" />
 ```
 
 ---
@@ -115,7 +114,6 @@ Open PowerShell inside the project root and run:
 ```powershell
 python -m venv venv
 .\venv\Scripts\activate
-<img width="975" height="150" alt="image" src="https://github.com/user-attachments/assets/394c6a90-da0b-43d9-8c97-5a04158eee21" />
 ```
 
 > Your terminal prompt should now show `(venv)` indicating the virtual environment is active.
@@ -126,7 +124,6 @@ python -m venv venv
 
 ```powershell
 (venv) PS D:\Workspace\EventsAggregator-Project> pip install -r .\requirements.txt
-<img width="975" height="41" alt="image" src="https://github.com/user-attachments/assets/1b685a6a-9f0b-4897-84ae-67351ddc0a95" />
 ```
 
 ---
@@ -139,14 +136,12 @@ python -m venv venv
 EventsAggregator-Project\.env
 <img width="975" height="34" alt="image" src="https://github.com/user-attachments/assets/55fdc736-1dc1-44a7-b298-adfbe26d960b" />
 EventsAggregator-Project\backend\src\main\resources\application.properties
-<img width="711" height="498" alt="image" src="https://github.com/user-attachments/assets/200083bf-ba90-4167-bce1-59c17af1ad7a" />
 ```
 
 **Frontend configuration:**
 
 ```
 EventsAggregator-Project\frontend\.env
-<img width="681" height="48" alt="image" src="https://github.com/user-attachments/assets/b4e42faf-ea2c-4412-ae6d-69ee491772c7" />
 ```
 
 > ⚠️ Make sure to fill in all required values (database credentials, API keys, ports, etc.) before proceeding.
@@ -169,7 +164,6 @@ This ensures IntelliJ properly re-indexes the Maven configuration.
 
 ```
 Database → Create → Database
-<img width="751" height="584" alt="image" src="https://github.com/user-attachments/assets/9c5d79ce-93d1-4573-a4e6-d0d80592d804" />
 ```
 
 Enter your desired database name (must match the one set in `application.properties`).
@@ -178,7 +172,6 @@ Enter your desired database name (must match the one set in `application.propert
 
 ```
 Database Icon → + → Data Source → PostgreSQL
-<img width="995" height="846" alt="image" src="https://github.com/user-attachments/assets/8a819fff-7b35-45a5-a280-d5d363969be5" />
 → Test Connection → Apply → OK
 ```
 
@@ -190,7 +183,6 @@ Run the initial scraper to create the `events` table and populate it with data:
 
 ```powershell
 (venv) PS D:\Workspace\EventsAggregator-Project> python .\scraper_postgres_connector\main.py
-<img width="975" height="34" alt="image" src="https://github.com/user-attachments/assets/2442a92e-79d8-4d04-af97-65533c8aeabc" />
 ```
 
 ---
@@ -201,7 +193,6 @@ To keep events up to date (runs every 24 hours), execute the scheduler:
 
 ```powershell
 (venv) PS D:\Workspace\EventsAggregator-Project> python .\mktickets_scraper\scheduler\scheduler.py
-<img width="975" height="34" alt="image" src="https://github.com/user-attachments/assets/bbdd58e4-03e0-414f-811d-a44ec1904d9b" />
 ```
 
 > After both scripts complete, the database should be populated and ready. ✅
@@ -216,7 +207,6 @@ In IntelliJ IDEA, locate and run the main Spring Boot class:
 
 ```
 BackendApplication
-<img width="975" height="297" alt="image" src="https://github.com/user-attachments/assets/f41ad246-b73a-42cb-9779-77fcaf7c360e" />
 ```
 
 The backend will start on the configured port (default: `http://localhost:8080`).
@@ -228,9 +218,7 @@ The backend will start on the configured port (default: `http://localhost:8080`)
 Open a new terminal window, navigate to the frontend folder, and run:
 
 ```powershell
-<img width="838" height="204" alt="image" src="https://github.com/user-attachments/assets/80b0f474-4caa-41fe-babc-e08ca9fd3453" />
 PS D:\Workspace\EventsAggregator-Project\frontend> npm run dev
-<img width="573" height="227" alt="image" src="https://github.com/user-attachments/assets/bc0df9bc-ce87-47e4-9e3e-4cb6335b7108" />
 ```
 
 The frontend will be available at: `http://localhost:5173` (or as configured in `.env`).
