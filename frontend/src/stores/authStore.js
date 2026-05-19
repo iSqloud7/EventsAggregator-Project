@@ -25,11 +25,10 @@ export const useAuthStore = defineStore('auth', () => {
 
 async function register(data) {
   try {
-    const res = await userApi.register(data)
-    user.value = res.data
-    localStorage.setItem('user', JSON.stringify(res.data))
+    await userApi.register(data)
     return true
   } catch (e) {
+    error.value = 'Registration failed.'
     return false
   }
 }
