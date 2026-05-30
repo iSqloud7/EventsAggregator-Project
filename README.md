@@ -1,4 +1,4 @@
-# 🎟️ EventsMK — Events Aggregator Platform
+cd# 🎟️ EventsMK — Events Aggregator Platform
 
 > **EventsMK** is a full-stack web application that automatically aggregates events from various Macedonian event websites every 24 hours. It serves as a centralized hub where users can discover, save, and explore upcoming events — all in one place.
 
