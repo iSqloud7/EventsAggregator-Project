@@ -5,42 +5,42 @@
     <div class="form-row">
       <div class="form-group">
         <label>Title *</label>
-        <input v-model="form.title" type="text" placeholder="Event title" required />
+        <input v-model="form.title" type="text" placeholder="еvent_form" required />
       </div>
       <div class="form-group">
         <label>City</label>
-        <input v-model="form.city" type="text" placeholder="Skopje" />
+        <input v-model="form.city" type="text" placeholder="event_city" />
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group">
         <label>Date</label>
-        <input v-model="form.dateStart" type="text" placeholder="e.g. 25-04-2025" />
+        <input v-model="form.dateStart" type="text" placeholder="event_start_date" />
       </div>
       <div class="form-group">
         <label>Time</label>
-        <input v-model="form.timeStart" type="text" placeholder="e.g. 20:00" />
+        <input v-model="form.timeStart" type="text" placeholder="event_start_time" />
       </div>
       <div class="form-group">
         <label>Price</label>
-        <input v-model="form.price" type="text" placeholder="e.g. 500мкд." />
+        <input v-model="form.price" type="text" placeholder="event_price" />
       </div>
     </div>
 
     <div class="form-group">
       <label>Location</label>
-      <input v-model="form.location" type="text" placeholder="Venue name" />
+      <input v-model="form.location" type="text" placeholder="event_location" />
     </div>
 
     <div class="form-group">
       <label>Image URL</label>
-      <input v-model="form.image" type="url" placeholder="https://..." />
+      <input v-model="form.image" type="url" placeholder="event_image_link" />
     </div>
 
     <div class="form-group">
       <label>Description</label>
-      <textarea v-model="form.description" placeholder="Event description..." rows="4" />
+      <textarea v-model="form.description" placeholder="event_description" rows="4" />
     </div>
 
     <div class="form-actions">

@@ -30,6 +30,20 @@ class Event(Base):
             "description": self.description
         }
 
+class Movie(Base):
+    __tablename__ = "movies"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    image = Column(String, nullable=True)
+    genre = Column(String, nullable=True)
+    duration = Column(String, nullable=True)
+    time_start = Column(String, nullable=True)
+    date_start = Column(String, nullable=True)
+    location = Column(String, nullable=True)
+    city = Column(String, nullable=True)
+    price = Column(String, nullable=True)
+    description = Column(String, nullable=True)
 
 class Wishlist(Base):
     __tablename__ = "wishlists"
