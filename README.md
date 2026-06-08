@@ -134,8 +134,6 @@ python -m venv venv
 
 ```
 EventsAggregator-Project\.env
-<img width="975" height="34" alt="image" src="https://github.com/user-attachments/assets/55fdc736-1dc1-44a7-b298-adfbe26d960b" />
-EventsAggregator-Project\backend\src\main\resources\application.properties
 ```
 
 **Frontend configuration:**
