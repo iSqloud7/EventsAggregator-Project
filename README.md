@@ -188,7 +188,6 @@ Run the initial connector to the Database to create the tables (`events`, `movie
 ### Step 9 — Run the scheduler to update events, theater-shows, and movies.
 
 To keep events, theater-shows, and movies up to date, run the scheduler manually:
-Optional: (automatic update every 24 hours) -> uncomment the code in the scheduler files.
 
 ```powershell
 (venv) PS D:\Workspace\EventsAggregator-Project> python .\mktickets_scraper\scheduler\events_scheduler.py
@@ -196,6 +195,7 @@ Optional: (automatic update every 24 hours) -> uncomment the code in the schedul
 (venv) PS D:\Workspace\EventsAggregator-Project> python .\mktickets_scraper\scheduler\movies_scheduler.py
 ```
 
+> Optional: (automatic update every 24 hours) -> uncomment the code in the scheduler files.
 > Once the scripts from step 8 and step 9 are complete, the database should be populated and ready. ✅
 
 ---
