@@ -8,27 +8,43 @@ export const useWishlistStore = defineStore('wishlist', () => {
 
   async function fetchWishlist() {
     const auth = useAuthStore()
-    if (!auth.isLoggedIn) return
-    const res = await wishlistApi.getWishlist(auth.user.id)
-    wishlist.value = res.data
+    if (!auth.isLoggedIn || !auth.user) return
+    try {
+      const res = await wishlistApi.getWishlist(auth.user.id)
+      wishlist.value = res.data
+    } catch (error) {
+      console.error("Error fetching wishlist:", error)
+    }
   }
 
-  async function addToWishlist(eventId) {
+  async function addToWishlist(itemId, type = 'EVENT') {
     const auth = useAuthStore()
-    if (!auth.isLoggedIn) return
-    await wishlistApi.addToWishlist(auth.user.id, eventId)
-    await fetchWishlist()
+    if (!auth.isLoggedIn || !auth.user) return
+    try {
+      await wishlistApi.addToWishlist(auth.user.id, itemId, type)
+      await fetchWishlist()
+    } catch (error) {
+      console.error("Error adding to wishlist:", error)
+    }
   }
 
-  async function removeFromWishlist(eventId) {
+  async function removeFromWishlist(itemId, type = 'EVENT') {
     const auth = useAuthStore()
-    if (!auth.isLoggedIn) return
-    await wishlistApi.removeFromWishlist(auth.user.id, eventId)
-    await fetchWishlist()
+    if (!auth.isLoggedIn || !auth.user) return
+    try {
+      await wishlistApi.removeFromWishlist(auth.user.id, itemId, type)
+      await fetchWishlist()
+    } catch (error) {
+      console.error("Error removing from wishlist:", error)
+    }
   }
 
-  function isInWishlist(eventId) {
-    return wishlist.value.some(w => w.event.id === eventId)
+  function isInWishlist(itemId, type = 'EVENT') {
+    if (!wishlist.value) return false
+    return wishlist.value.some(w =>
+        w.itemId === itemId &&
+        w.type.toUpperCase() === type.toUpperCase()
+    )
   }
 
   return { wishlist, fetchWishlist, addToWishlist, removeFromWishlist, isInWishlist }

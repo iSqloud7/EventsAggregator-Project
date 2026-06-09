@@ -48,3 +48,16 @@ class User(Base):
     name = Column(String, nullable=True)
     surname = Column(String, nullable=True)
     role = Column(String, nullable=True)
+
+class TheaterShow(Base):
+    __tablename__ = "theater_shows"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    image = Column(String, nullable=True)
+    location = Column(String, nullable=True)
+    price = Column(String, nullable=True)
+    time_start = Column(String, nullable=True)
+    date_start = Column(String, nullable=True)
+    city = Column(String, nullable=True)
+    description = Column(String, nullable=True)

@@ -18,29 +18,32 @@ public class WishlistController {
         this.wishlistApplicationService = wishlistApplicationService;
     }
 
-    @PostMapping("/{userId}/{eventId}")
+    @PostMapping("/{userId}/{itemId}")
     public ResponseEntity<DisplayWishlistDTO> addToWishlist(@PathVariable Long userId,
-                                                            @PathVariable Long eventId) {
-        return wishlistApplicationService.addToWishlist(userId, eventId)
+                                                            @PathVariable Long itemId,
+                                                            @RequestParam(defaultValue = "EVENT") String type) {
+        return wishlistApplicationService.addToWishlist(userId, itemId, type)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{userId}/{eventId}")
+    @DeleteMapping("/{userId}/{itemId}")
     public ResponseEntity<Void> removeFromWishlist(@PathVariable Long userId,
-                                                   @PathVariable Long eventId) {
-        wishlistApplicationService.removeFromWishlist(userId, eventId);
+                                                   @PathVariable Long itemId,
+                                                   @RequestParam(defaultValue = "EVENT") String type) {
+        wishlistApplicationService.removeFromWishlist(userId, itemId, type);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{userId}/{itemId}/check")
+    public ResponseEntity<Boolean> isInWishlist(@PathVariable Long userId,
+                                                @PathVariable Long itemId,
+                                                @RequestParam(defaultValue = "EVENT") String type) {
+        return ResponseEntity.ok(wishlistApplicationService.isInWishlist(userId, itemId, type));
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<List<DisplayWishlistDTO>> findByUser(@PathVariable Long userId) {
         return ResponseEntity.ok(wishlistApplicationService.findByUser(userId));
-    }
-
-    @GetMapping("/{userId}/{eventId}/check")
-    public ResponseEntity<Boolean> isInWishlist(@PathVariable Long userId,
-                                                @PathVariable Long eventId) {
-        return ResponseEntity.ok(wishlistApplicationService.isInWishlist(userId, eventId));
     }
 }

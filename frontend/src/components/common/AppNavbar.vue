@@ -1,3 +1,57 @@
+<!--<template>-->
+<!--  <nav class="navbar" :class="{ scrolled: isScrolled }">-->
+<!--    <div class="container nav-inner">-->
+<!--      <RouterLink to="/" class="nav-logo">-->
+<!--        <span class="logo-text">EVENTS<span class="accent">MK</span></span>-->
+<!--      </RouterLink>-->
+
+<!--    <div class="nav-links">-->
+<!--      <RouterLink to="/events" class="nav-link">Events</RouterLink>-->
+<!--      <RouterLink v-if="auth.isLoggedIn" to="/wishlist" class="nav-link">Wishlist ❤️</RouterLink>-->
+<!--      <RouterLink v-if="auth.isAdmin" to="/users" class="nav-link">Users</RouterLink>-->
+<!--      <RouterLink v-if="auth.isAdmin" to="/events/add" class="btn btn-ghost btn-sm">+ Add Event</RouterLink>-->
+<!--      <RouterLink v-if="auth.isAdmin || auth.isDeveloper" to="/stats" class="nav-link">Stats</RouterLink>-->
+<!--    </div>-->
+
+<!--      <div class="nav-actions">-->
+<!--      <template v-if="auth.isLoggedIn">-->
+<!--      <RouterLink to="/profile" class="user-info">-->
+<!--        <span class="badge" :class="auth.isAdmin ? 'badge-admin' : 'badge-user'">-->
+<!--          {{ auth.user.role }}-->
+<!--        </span>-->
+<!--        {{ auth.user?.name }}-->
+<!--      </RouterLink>-->
+<!--      <button class="btn btn-ghost btn-sm" @click="handleLogout">Logout</button>-->
+<!--      </template>-->
+<!--        <template v-else>-->
+<!--          <RouterLink to="/login" class="btn btn-ghost btn-sm">Login</RouterLink>-->
+<!--          <RouterLink to="/register" class="btn btn-primary btn-sm">Register</RouterLink>-->
+<!--        </template>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Mobile menu toggle &ndash;&gt;-->
+<!--      <button class="mobile-toggle" @click="menuOpen = !menuOpen">-->
+<!--        <span></span><span></span><span></span>-->
+<!--      </button>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Mobile menu &ndash;&gt;-->
+<!--    <div class="mobile-menu" :class="{ open: menuOpen }" @click="menuOpen = false">-->
+<!--      <RouterLink to="/events">Events</RouterLink>-->
+<!--      <RouterLink v-if="auth.isAdmin" to="/users">Users</RouterLink>-->
+<!--      <RouterLink v-if="auth.isAdmin" to="/events/add">+ Add Event</RouterLink>-->
+<!--      <RouterLink v-if="auth.isLoggedIn" to="/wishlist">Wishlist ❤️</RouterLink>-->
+<!--      <template v-if="auth.isLoggedIn">-->
+<!--        <button @click="handleLogout">Logout</button>-->
+<!--      </template>-->
+<!--      <template v-else>-->
+<!--        <RouterLink to="/login">Login</RouterLink>-->
+<!--        <RouterLink to="/register">Register</RouterLink>-->
+<!--      </template>-->
+<!--    </div>-->
+<!--  </nav>-->
+<!--</template>-->
+
 <template>
   <nav class="navbar" :class="{ scrolled: isScrolled }">
     <div class="container nav-inner">
@@ -5,39 +59,39 @@
         <span class="logo-text">EVENTS<span class="accent">MK</span></span>
       </RouterLink>
 
-    <div class="nav-links">
-      <RouterLink to="/events" class="nav-link">Events</RouterLink>
-      <RouterLink v-if="auth.isLoggedIn" to="/wishlist" class="nav-link">Wishlist ❤️</RouterLink>
-      <RouterLink v-if="auth.isAdmin" to="/users" class="nav-link">Users</RouterLink>
-      <RouterLink v-if="auth.isAdmin" to="/events/add" class="btn btn-ghost btn-sm">+ Add Event</RouterLink>
-      <RouterLink v-if="auth.isAdmin || auth.isDeveloper" to="/stats" class="nav-link">Stats</RouterLink>
-    </div>
+      <div class="nav-links">
+        <RouterLink to="/events" class="nav-link">Events</RouterLink>
+        <RouterLink to="/theaters" class="nav-link">Theaters</RouterLink>
+        <RouterLink v-if="auth.isLoggedIn" to="/wishlist" class="nav-link">Wishlist ❤️</RouterLink>
+        <RouterLink v-if="auth.isAdmin" to="/users" class="nav-link">Users</RouterLink>
+        <RouterLink v-if="auth.isAdmin" to="/events/add" class="btn btn-ghost btn-sm">+ Add Event</RouterLink>
+        <RouterLink v-if="auth.isAdmin || auth.isDeveloper" to="/stats" class="nav-link">Stats</RouterLink>
+      </div>
 
       <div class="nav-actions">
-      <template v-if="auth.isLoggedIn">
-      <RouterLink to="/profile" class="user-info">
-        <span class="badge" :class="auth.isAdmin ? 'badge-admin' : 'badge-user'">
-          {{ auth.user.role }}
-        </span>
-        {{ auth.user?.name }}
-      </RouterLink>
-      <button class="btn btn-ghost btn-sm" @click="handleLogout">Logout</button>
-      </template>
+        <template v-if="auth.isLoggedIn">
+          <RouterLink to="/profile" class="user-info">
+            <span class="badge" :class="auth.isAdmin ? 'badge-admin' : 'badge-user'">
+              {{ auth.user.role }}
+            </span>
+            {{ auth.user?.name }}
+          </RouterLink>
+          <button class="btn btn-ghost btn-sm" @click="handleLogout">Logout</button>
+        </template>
         <template v-else>
           <RouterLink to="/login" class="btn btn-ghost btn-sm">Login</RouterLink>
           <RouterLink to="/register" class="btn btn-primary btn-sm">Register</RouterLink>
         </template>
       </div>
 
-      <!-- Mobile menu toggle -->
       <button class="mobile-toggle" @click="menuOpen = !menuOpen">
         <span></span><span></span><span></span>
       </button>
     </div>
 
-    <!-- Mobile menu -->
     <div class="mobile-menu" :class="{ open: menuOpen }" @click="menuOpen = false">
       <RouterLink to="/events">Events</RouterLink>
+      <RouterLink to="/theaters">Theaters</RouterLink>
       <RouterLink v-if="auth.isAdmin" to="/users">Users</RouterLink>
       <RouterLink v-if="auth.isAdmin" to="/events/add">+ Add Event</RouterLink>
       <RouterLink v-if="auth.isLoggedIn" to="/wishlist">Wishlist ❤️</RouterLink>
@@ -51,7 +105,6 @@
     </div>
   </nav>
 </template>
-
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'

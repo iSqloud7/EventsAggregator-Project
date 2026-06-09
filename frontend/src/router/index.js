@@ -36,7 +36,20 @@ const routes = [
   path: '/wishlist',
   component: () => import('@/views/wishlist/WishlistView.vue'),
   meta: { requiresAuth: true }
-}
+},
+
+  { path: '/theaters',          component: () => import('@/views/theater/TheatersView.vue') },
+  { path: '/theaters/:id',      component: () => import('@/views/theater/TheaterDetailView.vue') },
+  {
+    path: '/theaters/add',
+    component: () => import('@/views/theater/TheaterFormView.vue'),
+    meta: { requiresAdminOrDeveloper: true }
+  },
+  {
+    path: '/theaters/edit/:id',
+    component: () => import('@/views/theater/TheaterFormView.vue'),
+    meta: { requiresAdminOrDeveloper: true }
+  },
 ]
 
 const router = createRouter({
