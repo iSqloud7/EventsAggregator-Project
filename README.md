@@ -195,7 +195,7 @@ To keep events, theater-shows, and movies up to date, run the scheduler manually
 (venv) PS D:\Workspace\EventsAggregator-Project> python .\mktickets_scraper\scheduler\movies_scheduler.py
 ```
 
-> Optional: (automatic update every 24 hours) -> uncomment the code in the scheduler files.
+> Optional: (automatic update every 24 hours) -> uncomment the code in the scheduler files.  
 > Once the scripts from step 8 and step 9 are complete, the database should be populated and ready. ✅
 
 ---
