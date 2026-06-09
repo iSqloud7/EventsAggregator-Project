@@ -216,9 +216,10 @@ The backend will start on the configured port (default: `http://localhost:8080`)
 
 ### Start the Frontend
 
-Open a new terminal window, navigate to the frontend folder, and run:
+Open a new terminal window, navigate to your frontend directory and install the necessary dependencies:
 
 ```powershell
+PS D:\Workspace\EventsAggregator-Project\frontend> npm install
 PS D:\Workspace\EventsAggregator-Project\frontend> npm run dev
 ```
 
