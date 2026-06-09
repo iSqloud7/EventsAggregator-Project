@@ -175,12 +175,12 @@ Database Icon → + → Data Source → PostgreSQL
 
 ---
 
-### Step 8 — Populate the Database with Events
+### Step 8 — Creating Database tables for Events, Movies, Theater-Shows, Users and Wishlists.
 
-Run the initial scraper to create the `events` table and populate it with data:
+Run the initial connector to the Database to create the tables (`events`, `movies`, `theater_shows`, `users`, `wishlists`) in it:
 
 ```powershell
-(venv) PS D:\Workspace\EventsAggregator-Project> python .\scraper_postgres_connector\main.py
+(venv) PS D:\Workspace\EventsAggregator-Project> python .\db_postgres_manager\main.py
 ```
 
 ---
