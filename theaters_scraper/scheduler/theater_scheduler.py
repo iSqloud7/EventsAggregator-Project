@@ -1,40 +1,36 @@
 import schedule
 import time
 import sys
-import os
+from pathlib import Path
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, BASE_DIR)
-sys.path.insert(0, os.path.join(BASE_DIR, 'theaters_scraper'))
-sys.path.insert(0, os.path.join(BASE_DIR, 'scraper_postgres_connector'))
+# Add project root to path so all modules are accessible.
+ROOT_DIR = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT_DIR))
 
-from scrapers.scraper_theater import run_teatar_scraper
-from scraper_postgres_connector.services.theater_show_service import load_theater_shows_from_json
-from db.database import engine
-from db.models import Base
+# Add db_postgres_manager to path for relative imports.
+CONNECTOR_DIR = ROOT_DIR / "db_postgres_manager"
+sys.path.insert(0, str(CONNECTOR_DIR))
 
-Base.metadata.create_all(bind=engine)
+from theaters_scraper.scrapers.scraper_theater import run_theatar_scraper
+from services.theater_show_service import load_theater_shows_from_json
 
 
 def theater_job():
-    print("\n==============================================")
-    print("Starting theater scraper...")
-    print("==============================================")
-    try:
-        shows = run_teatar_scraper()
+    print("Starting scraping job...")
 
-        if shows:
-            load_theater_shows_from_json(shows)
+    shows = run_theatar_scraper()
 
-    except Exception as e:
-        print(f"Error in theater scheduler: {e}")
-    print("==============================================\n")
+    if shows:
+        load_theater_shows_from_json(shows)
+        print(f"Inserted {len(shows)} shows into database!")
+    else:
+        print("No shows scraped!")
 
-schedule.every(24).hours.do(theater_job)
-
-print("Theater Scheduler is successfully running...")
 theater_job()
 
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+# schedule.every(24).hours.do(theater_job)
+# print("Theater Scheduler is successfully running...")
+
+# while True:
+#     schedule.run_pending()
+#     time.sleep(60)

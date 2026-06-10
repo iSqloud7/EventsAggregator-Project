@@ -44,7 +44,7 @@ def scrape_show_detail(url):
 
 
 
-def run_teatar_scraper():
+def run_theatar_scraper():
     try:
         response = requests.get(REPERTOAR_URL, timeout=10)
         if response.status_code != 200:

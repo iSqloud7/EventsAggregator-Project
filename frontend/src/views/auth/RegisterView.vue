@@ -4,7 +4,7 @@
       <div class="auth-header">
         <RouterLink to="/" class="auth-logo">EVENTS<span class="accent">MK</span></RouterLink>
         <h1 class="auth-title">CREATE ACCOUNT</h1>
-        <p class="auth-sub">Join EventsMK today</p>
+        <p class="auth-sub">Join EventsMK today!</p>
       </div>
 
       <form @submit.prevent="handleRegister" class="auth-form">
@@ -13,22 +13,22 @@
         <div class="form-row">
           <div class="form-group">
             <label>First Name</label>
-            <input v-model="form.name" type="text" placeholder="John" required/>
+            <input v-model="form.name" type="text" placeholder="your_name" required/>
           </div>
           <div class="form-group">
             <label>Last Name</label>
-            <input v-model="form.surname" type="text" placeholder="Doe" required/>
+            <input v-model="form.surname" type="text" placeholder="your_surname" required/>
           </div>
         </div>
 
         <div class="form-group">
           <label>Username</label>
-          <input v-model="form.username" type="text" placeholder="john_doe" required/>
+          <input v-model="form.username" type="text" placeholder="your_username" required/>
         </div>
 
         <div class="form-group">
           <label>Email</label>
-          <input v-model="form.email" type="email" placeholder="john@example.com" required/>
+          <input v-model="form.email" type="email" placeholder="your_email" required/>
         </div>
 
         <div class="form-group">

@@ -13,10 +13,12 @@ import java.util.Optional;
 @Repository
 public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
     List<Wishlist> findByUser(User user);
+
     Optional<Wishlist> findByUserAndEvent(User user, Event event);
     boolean existsByUserAndEvent(User user, Event event);
     void deleteByEventId(Long eventId);
+
     Optional<Wishlist> findByUserAndTheaterShow(User user, TheaterShow theaterShow);
     boolean existsByUserAndTheaterShow(User user, TheaterShow theaterShow);
-    void deleteByTheaterShowId(Long theaterShowId);
+    void deleteByTheaterShowId(Long theater_show_id);
 }

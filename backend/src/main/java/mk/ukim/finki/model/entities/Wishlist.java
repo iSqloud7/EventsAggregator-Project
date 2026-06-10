@@ -15,11 +15,11 @@ public class Wishlist {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "event_id", nullable = true)
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "theater_show_id", nullable = true)
+    @JoinColumn(name = "theater_show_id")
     private TheaterShow theaterShow;
 
     public Wishlist() {}
@@ -36,15 +36,48 @@ public class Wishlist {
         this.event = null;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Wishlist(User user, Event event, TheaterShow theaterShow) {
+        this.user = user;
+        this.event = event;
+        this.theaterShow = theaterShow;
+    }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public Wishlist(Long id, User user, Event event, TheaterShow theaterShow) {
+        this.id = id;
+        this.user = user;
+        this.event = event;
+        this.theaterShow = theaterShow;
+    }
 
-    public Event getEvent() { return event; }
-    public void setEvent(Event event) { this.event = event; }
+    public Long getId() {
+        return id;
+    }
 
-    public TheaterShow getTheaterShow() { return theaterShow; }
-    public void setTheaterShow(TheaterShow theaterShow) { this.theaterShow = theaterShow; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public TheaterShow getTheaterShow() {
+        return theaterShow;
+    }
+
+    public void setTheaterShow(TheaterShow theaterShow) {
+        this.theaterShow = theaterShow;
+    }
 }

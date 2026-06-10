@@ -18,14 +18,14 @@ def create_tables():
     print("Tables created successfully!")
 
 
-def populate():
-    # Load scraped events from the JSON output file.
-    file_path = Path("mktickets_scraper/events-output/events.json")
-    with open(file_path, encoding="utf-8") as f:
-        events = json.load(f)
-
-    # Sync events into the database.
-    load_events_from_json(events)
+# def populate(): # ONLY FOR EVENTS FOR PERSISTENT DATA
+#     # Load scraped events from the JSON output file.
+#     file_path = Path("mktickets_scraper/events-output/events.json")
+#     with open(file_path, encoding="utf-8") as f:
+#         events = json.load(f)
+#
+#     # Sync events into the database.
+#     load_events_from_json(events)
 
 
 if __name__ == "__main__":
@@ -34,4 +34,4 @@ if __name__ == "__main__":
     create_tables()
 
     # Step 2: Populate with scraped data.
-    populate()
+    # populate()

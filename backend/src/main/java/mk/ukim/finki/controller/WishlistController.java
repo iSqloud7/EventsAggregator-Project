@@ -19,12 +19,12 @@ public class WishlistController {
     }
 
     @PostMapping("/{userId}/{itemId}")
-    public ResponseEntity<DisplayWishlistDTO> addToWishlist(@PathVariable Long userId,
+    public ResponseEntity<?> addToWishlist(@PathVariable Long userId,
                                                             @PathVariable Long itemId,
                                                             @RequestParam(defaultValue = "EVENT") String type) {
         return wishlistApplicationService.addToWishlist(userId, itemId, type)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/{userId}/{itemId}")

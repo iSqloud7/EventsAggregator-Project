@@ -51,7 +51,7 @@ def scrape_event_detail(url):
     return event
 
 
-def run_scraper():
+def run_event_scraper():
 
     response = requests.get(BASE_URL)
 
