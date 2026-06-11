@@ -71,7 +71,7 @@ import EventCard from '@/components/events/EventCard.vue'
 const auth       = useAuthStore()
 const eventStore = useEventStore()
 
-const previewEvents = computed(() => eventStore.events.slice(0, 6))
+const previewEvents = computed(() => eventStore.events.slice(0, 3))
 
 onMounted(() => {
   if (!eventStore.events.length) eventStore.fetchAll()
