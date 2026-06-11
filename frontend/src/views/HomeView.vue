@@ -11,9 +11,10 @@
         <h1 class="page-title fade-up-2">
           YOUR NEXT<br /><span class="accent">EXPERIENCE</span><br />AWAITS
         </h1>
-        <p class="hero-sub fade-up-3">Concerts, festivals, theatre & more — all in one place.</p>
+        <p class="hero-sub fade-up-3">Concerts, festivals, movies, theater shows & more — all in one place.</p>
         <div class="hero-actions fade-up-4">
           <RouterLink to="/events" class="btn btn-primary">Browse Events</RouterLink>
+          <RouterLink to="/theaters" class="btn btn-primary">Browse Theater Shows</RouterLink>
           <RouterLink v-if="!auth.isLoggedIn" to="/register" class="btn btn-ghost">Create Account</RouterLink>
         </div>
       </div>

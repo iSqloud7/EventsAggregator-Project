@@ -5,32 +5,32 @@
     <div class="form-row">
       <div class="form-group">
         <label>Title *</label>
-        <input v-model="form.title" type="text" placeholder="Show title" required />
+        <input v-model="form.title" type="text" placeholder="theater_show_title" required />
       </div>
       <div class="form-group">
         <label>City</label>
-        <input v-model="form.city" type="text" placeholder="Skopje" />
+        <input v-model="form.city" type="text" placeholder="theater_show_city" />
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group">
         <label>Date</label>
-        <input v-model="form.dateStart" type="text" placeholder="e.g. 25-04-2025" />
+        <input v-model="form.dateStart" type="text" placeholder="date_start" />
       </div>
       <div class="form-group">
         <label>Time</label>
-        <input v-model="form.timeStart" type="text" placeholder="e.g. 20:00" />
+        <input v-model="form.timeStart" type="text" placeholder="time_start" />
       </div>
       <div class="form-group">
         <label>Price</label>
-        <input v-model="form.price" type="text" placeholder="e.g. 300 ден." />
+        <input v-model="form.price" type="text" placeholder="theater_show_price" />
       </div>
     </div>
 
     <div class="form-group">
       <label>Location</label>
-      <input v-model="form.location" type="text" placeholder="Theater name" />
+      <input v-model="form.location" type="text" placeholder="theater_show_location" />
     </div>
 
     <div class="form-group">
@@ -40,7 +40,7 @@
 
     <div class="form-group">
       <label>Description</label>
-      <textarea v-model="form.description" placeholder="Show description or cast..." rows="4" />
+      <textarea v-model="form.description" placeholder="theater_show_description" rows="4" />
     </div>
 
     <div class="form-actions">

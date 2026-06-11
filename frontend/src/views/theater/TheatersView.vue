@@ -2,8 +2,8 @@
   <div class="theaters-page">
     <div class="container">
       <div class="page-header fade-up-1">
-        <h1 class="page-title">THEATER <span class="accent">SHOWS</span></h1>
-        <RouterLink v-if="auth.isAdmin || auth.isDeveloper" to="/theaters/add" class="btn btn-primary">+ Add Show</RouterLink>
+        <h1 class="page-title">ALL THEATER <span class="accent">SHOWS</span></h1>
+        <RouterLink v-if="auth.isAdmin || auth.isDeveloper" to="/theaters/add" class="btn btn-primary">+ Add Theater Show</RouterLink>
       </div>
 
       <TheaterFilters class="fade-up-2" @filter="handleFilter" />

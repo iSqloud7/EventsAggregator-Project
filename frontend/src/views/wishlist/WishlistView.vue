@@ -8,6 +8,9 @@
       <RouterLink to="/events" class="btn btn-ghost" style="margin-top:1rem">
         Browse Events
       </RouterLink>
+      <RouterLink to="/theaters" class="btn btn-ghost" style="margin-top:1rem">
+        Browse Theater Shows
+      </RouterLink>
     </div>
 
     <div v-else class="events-grid">

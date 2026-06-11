@@ -26,7 +26,6 @@
         </div>
 
         <div class="charts-grid fade-up-3">
-          <!-- Настани по месец -->
           <div class="chart-card">
             <h2 class="chart-title">Events by Month</h2>
             <Bar :data="monthChartData" :options="chartOptions" />

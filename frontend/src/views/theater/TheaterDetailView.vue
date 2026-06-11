@@ -68,7 +68,7 @@
             </div>
 
             <RouterLink to="/theaters" class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:0.5rem">
-              ← Back to Theater
+              ← Back to Theater Shows
             </RouterLink>
           </aside>
         </div>
