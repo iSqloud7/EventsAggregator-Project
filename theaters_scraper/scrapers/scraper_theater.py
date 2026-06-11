@@ -3,102 +3,92 @@ from bs4 import BeautifulSoup
 import re
 
 BASE_URL = "https://teatarkomedija.mk"
-REPERTOAR_URL = "https://teatarkomedija.mk/repertoar/"
 
 
 def clean_text(text):
     if not text:
-        return ""
+        return None
     text = text.replace("\xa0", " ").replace("\n", " ").replace("\r", " ")
     return re.sub(r"\s+", " ", text).strip()
 
-def scrape_show_detail(url):
+
+def get_theater_address_info(soup):
+    footer_widget = soup.select_one("div.textwidget")
+    if not footer_widget:
+        return {"location": "Театар Комедија", "city": "Скопје"}
+
+    raw_text = footer_widget.get_text(separator=" ", strip=True)
+    clean_text_part = raw_text.replace("НУ Театар Комедија © 2026", "").strip()
+    full_address = clean_text_part.split('Администрација')[0].strip().rstrip(', ')
+
+    parts = full_address.split(',', 1)
+    location = parts[0].strip()
+    city = parts[1].strip() if len(parts) > 1 else "Скопје"
+    return {"location": location, "city": city}
+
+
+def get_theater_description(url):
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url)
         if response.status_code != 200:
             return None
 
         soup = BeautifulSoup(response.text, "html.parser")
-        columns = soup.select('div.elementor-column.elementor-col-50')
-        if len(columns) >= 2:
-            description_text = columns[1].get_text(separator="\n", strip=True)
-            if description_text and len(description_text) > 50:
-                return {"description": clean_text(description_text)}
+        description_tag = soup.select_one("div.qodef-grid-item")
 
-        content_areas = soup.select(".elementor-widget-text-editor, .entry-content")
-
-        longest_text = ""
-        for area in content_areas:
-            text = area.get_text(separator="\n", strip=True)
-            if len(text) > len(longest_text):
-                longest_text = text
-
-        if longest_text and len(longest_text) > 50:
-            return {"description": clean_text(longest_text)}
-
-        return {"description": "Опис моментално недостапен."}
-
+        return clean_text(description_tag.get_text()) if description_tag else None
     except Exception as e:
-        print(f"Error scraping detail {url}: {e}")
+        print(f"Error scraping {url}: {e}!")
         return None
 
 
-
-def run_theatar_scraper():
+def get_show_details(url):
     try:
-        response = requests.get(REPERTOAR_URL, timeout=10)
-        if response.status_code != 200:
-            print("Failed to fetch teatarkomedija.mk")
-            return []
+        response = requests.get(url)
+        if response.status_code != 200: return None
 
         soup = BeautifulSoup(response.text, "html.parser")
 
-        seen_urls = set()
-        shows = []
+        description_tag = soup.select_one("div.qodef-grid-item")
+        description = clean_text(description_tag.get_text()) if description_tag else ""
 
-        articles = soup.select("article.qodef-e")
-
-        for article in articles:
-            link_tag = article.select_one("a.qodef-e-title-link")
-            img_tag = article.select_one("img.wp-post-image")
-            title_tag = article.select_one("h5.qodef-e-title")
-
-            if not link_tag:
-                continue
-
-            url = link_tag.get("href")
-
-            if url in seen_urls:
-                continue
-            seen_urls.add(url)
-
-            title = clean_text(title_tag.get_text()) if title_tag else None
-
-            if not title:
-                continue
-
-            image = img_tag.get("src") if img_tag else None
-
-            details = scrape_show_detail(url)
-            description = details.get("description") if details else None
-
-            show = {
-                "title": title,
-                "image_url": image,
-                "location": "Театар Комедија",
-                "city": "Скопје",
-                "price": "300 ден.",
-                "time_start": "20:00",
-                "date_start": None,
-                "description": description
-            }
-
-            shows.append(show)
-            print(f"Scraped: {title}")
-
-        print(f"Total theater shows scraped: {len(shows)}")
-        return shows
-
+        return {"description": description}
     except Exception as e:
         print(f"Error: {e}")
-        return []
+        return None
+
+
+def run_theater_scraper():
+    response = requests.get(BASE_URL)
+    if response.status_code != 200: return []
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    address_info = get_theater_address_info(soup)
+
+    all_cards = soup.select("article.qodef-e")
+
+    shows = []
+    for card in all_cards:
+        title_tag = card.select_one("h5.qodef-e-title")
+        link_tag = card.select_one("a.qodef-e-title-link")
+        img_tag = card.select_one("img.wp-post-image")
+
+        if not title_tag or not link_tag: continue
+
+        link = link_tag['href']
+
+        details = get_show_details(link)
+
+        show_entry = {
+            "title": clean_text(title_tag.get_text()),
+            "image_url": img_tag['src'] if img_tag else None,
+            "location": address_info["location"],
+            "city": address_info["city"],
+            "price": "600 ден.",
+            "time_start": "20:00",
+            "date_start": None,
+            "description": details["description"] if details else ""
+        }
+        shows.append(show_entry)
+
+    return shows

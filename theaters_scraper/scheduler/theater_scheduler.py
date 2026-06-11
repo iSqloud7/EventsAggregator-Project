@@ -11,14 +11,14 @@ sys.path.insert(0, str(ROOT_DIR))
 CONNECTOR_DIR = ROOT_DIR / "db_postgres_manager"
 sys.path.insert(0, str(CONNECTOR_DIR))
 
-from theaters_scraper.scrapers.scraper_theater import run_theatar_scraper
+from theaters_scraper.scrapers.scraper_theater import run_theater_scraper
 from services.theater_show_service import load_theater_shows_from_json
 
 
 def theater_job():
     print("Starting scraping job...")
 
-    shows = run_theatar_scraper()
+    shows = run_theater_scraper()
 
     if shows:
         load_theater_shows_from_json(shows)
