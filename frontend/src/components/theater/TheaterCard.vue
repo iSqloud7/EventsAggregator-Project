@@ -32,7 +32,7 @@
 
       <div class="card-footer">
         <span class="card-price" v-if="show.price">{{ show.price }}</span>
-        <span class="card-price free" v-else>Free</span>
+        <span class="card-price" v-else>THEATER</span>
 
         <div class="card-actions" @click.stop>
           <button
@@ -198,7 +198,7 @@ async function handleDelete() {
 .card-price {
   font-weight: 600;
   font-size: 0.9rem;
-  color: var(--accent);
+  color: lime;
 }
 
 .card-price.free { color: var(--success); }

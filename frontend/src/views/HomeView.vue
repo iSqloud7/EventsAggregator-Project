@@ -79,7 +79,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Hero */
 .hero {
   position: relative;
   min-height: 88vh;
@@ -152,7 +151,6 @@ onMounted(() => {
   flex-wrap: wrap;
 }
 
-/* Stats */
 .stats-section {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -183,7 +181,6 @@ onMounted(() => {
   color: var(--text-muted);
 }
 
-/* Latest events */
 .latest-section { padding: 5rem 0; }
 
 .section-header {

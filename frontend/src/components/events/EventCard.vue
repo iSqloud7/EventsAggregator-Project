@@ -25,8 +25,8 @@
       </div>
 
       <div class="card-footer">
-  <span class="card-price" v-if="event.price">{{ event.price }}</span>
-  <span class="card-price free" v-else>Free</span>
+        <span class="card-price" v-if="event.price">{{ event.price }}</span>
+        <span class="card-price" v-else>EVENT</span>
 
   <div class="card-actions" @click.stop>
     <button
@@ -45,8 +45,6 @@
   </div>
 </div>
     </div>
-
-    <!-- Delete confirm modal -->
     <AppModal v-model="showDeleteModal" title="DELETE EVENT">
       <p style="color: var(--text-muted)">Are you sure you want to delete <strong style="color:var(--text)">{{ event.title }}</strong>?</p>
       <template #footer>

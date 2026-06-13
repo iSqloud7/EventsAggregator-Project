@@ -19,13 +19,13 @@ public interface TheaterShowRepository extends JpaRepository<TheaterShow, Long> 
     List<TheaterShow> findByCityAndDateStart(String city, String dateStart);
 
     @Query("""
-                SELECT show FROM  TheaterShow show
+                SELECT DISTINCT show FROM  TheaterShow show
                 WHERE LOWER(show.title) LIKE  LOWER(CONCAT('%', :keyword, '%'))
             """)
     List<TheaterShow> searchByTitle(@Param("keyword") String keyword);
 
     @Query("""
-                SELECT show FROM TheaterShow show
+                SELECT DISTINCT show FROM TheaterShow show
                 WHERE (:city IS NULL OR show.city = :city)
                 AND (:dateStart IS NULL OR show.dateStart = :dateStart)
                 AND (:keyword IS NULL OR LOWER(show.title) LIKE LOWER(CONCAT('%', :keyword, '%')))

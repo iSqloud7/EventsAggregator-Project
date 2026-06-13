@@ -3,8 +3,6 @@ import { ref, computed } from 'vue'
 import { userApi } from '@/api/userApi'
 
 export const useAuthStore = defineStore('auth', () => {
-  // const user = ref(JSON.parse(localStorage.getItem('user') || 'null'))
-  // sessionStorage instead of localStorage to not store state permanently
   const user = ref(JSON.parse(sessionStorage.getItem('user') || 'null'))
 
   const isLoggedIn = computed(() => !!user.value)
@@ -17,7 +15,6 @@ export const useAuthStore = defineStore('auth', () => {
   try {
     const res = await userApi.login(credentials)
     user.value = res.data
-    // localStorage.setItem('user', JSON.stringify(res.data))
     sessionStorage.setItem('user', JSON.stringify(res.data))
     return true
   } catch (e) {
@@ -28,8 +25,6 @@ export const useAuthStore = defineStore('auth', () => {
 
 async function register(data) {
   try {
-    // localStorage.setItem('user', JSON.stringify(res.data))
-    // sessionStorage.setItem('user', JSON.stringify(res.data))
     await userApi.register(data)
     error.value = null
     return true
@@ -40,7 +35,6 @@ async function register(data) {
 }
   function logout() {
     user.value = null
-    // localStorage.removeItem('user')
     sessionStorage.removeItem('user')
   }
 

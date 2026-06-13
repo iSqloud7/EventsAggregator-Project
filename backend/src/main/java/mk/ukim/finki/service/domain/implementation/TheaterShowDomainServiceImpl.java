@@ -3,6 +3,7 @@ package mk.ukim.finki.service.domain.implementation;
 import jakarta.transaction.Transactional;
 import mk.ukim.finki.model.entities.TheaterShow;
 import mk.ukim.finki.repository.TheaterShowRepository;
+import mk.ukim.finki.repository.WishlistRepository;
 import mk.ukim.finki.service.domain.TheaterShowDomainService;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class TheaterShowDomainServiceImpl implements TheaterShowDomainService {
 
     private final TheaterShowRepository theaterShowRepository;
+    private final WishlistRepository wishlistRepository;
 
-    public TheaterShowDomainServiceImpl(TheaterShowRepository theaterShowRepository) {
+    public TheaterShowDomainServiceImpl(TheaterShowRepository theaterShowRepository, WishlistRepository wishlistRepository) {
         this.theaterShowRepository = theaterShowRepository;
+        this.wishlistRepository = wishlistRepository;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class TheaterShowDomainServiceImpl implements TheaterShowDomainService {
     @Transactional
     @Override
     public void delete(Long id) {
+        wishlistRepository.deleteByTheaterShowId(id);
         this.theaterShowRepository.deleteById(id);
     }
 

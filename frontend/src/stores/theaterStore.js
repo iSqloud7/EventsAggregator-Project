@@ -36,7 +36,6 @@ export const useTheaterStore = defineStore('theater', () => {
     async function deleteShow(id) {
         await theaterApi.delete(id)
         shows.value = shows.value.filter(s => s.id !== id)
-
         const wishlistStore = useWishlistStore()
         await wishlistStore.fetchWishlist()
     }

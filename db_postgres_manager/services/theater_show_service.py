@@ -6,34 +6,30 @@ def load_theater_shows_from_json(shows: list):
 
     try:
         for s in shows:
-            exists = session.query(TheaterShow).filter_by(
-                title=s["title"],
-                date_start=s.get("date_start")
-            ).first()
+            existing_show = session.query(TheaterShow).filter_by(title=s["title"]).first()
 
-            if exists:
-                exists.image = s.get("image_url")
-                exists.description = s.get("description")
-                exists.location = s.get("location")
-                exists.city = s.get("city")
-                exists.price = s.get("price", "300 ден.")
-                exists.time_start = s.get("time_start", "20:00")
+            if existing_show:
+                existing_show.image = s.get("image_url")
+                existing_show.description = s.get("description")
+                existing_show.location = s.get("location")
+                existing_show.city = s.get("city")
+                existing_show.price = s.get("price", "600 ден.")
+                existing_show.time_start = s.get("time_start", "20:00")
             else:
                 show = TheaterShow(
                     title=s["title"],
                     image=s.get("image_url"),
                     location=s.get("location"),
                     city=s.get("city"),
-                    price=s.get("price", "300 ден."),
+                    price=s.get("price", "600 ден."),
                     time_start=s.get("time_start", "20:00"),
-                    date_start=s.get("date_start"),
+                    date_start=None,
                     description=s.get("description")
                 )
                 session.add(show)
 
         session.commit()
         print(f"Theater shows synced. {len(shows)} shows processed.")
-
     except Exception as e:
         session.rollback()
         print(f"Database error during sync: {e}")

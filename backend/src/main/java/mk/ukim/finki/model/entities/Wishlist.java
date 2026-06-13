@@ -15,11 +15,11 @@ public class Wishlist {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id",nullable = true)
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "theater_show_id")
+    @JoinColumn(name = "theater_show_id", nullable = true)
     private TheaterShow theaterShow;
 
     public Wishlist() {}

@@ -16,6 +16,10 @@
             <div class="stat-label">Total Events</div>
           </div>
           <div class="stat-card">
+            <div class="stat-value">{{ stats.totalTheaterShows }}</div>
+            <div class="stat-label">Total Theater Shows</div>
+          </div>
+          <div class="stat-card">
             <div class="stat-value">{{ stats.totalUsers }}</div>
             <div class="stat-label">Total Users</div>
           </div>
@@ -29,6 +33,11 @@
           <div class="chart-card">
             <h2 class="chart-title">Events by Month</h2>
             <Bar :data="monthChartData" :options="chartOptions" />
+          </div>
+
+          <div class="chart-card">
+            <h2 class="chart-title">Theater Shows by Month</h2>
+            <Bar :data="theaterChartData" :options="chartOptions" />
           </div>
 
           <div class="chart-card">
@@ -63,7 +72,11 @@ const stats = ref({
   totalEvents: 0,
   totalUsers: 0,
   totalWishlists: 0,
+  totalWishlistsPerUser: 0,
+  totalTheaterShows: 0,
+  username: '',
   eventsByMonth: {},
+  theatersByMonth: {},
   usersByRole: {}
 })
 
@@ -80,6 +93,18 @@ const monthChartData = computed(() => ({
     data: Object.values(stats.value.eventsByMonth || {}),
     backgroundColor: 'rgba(232, 255, 71, 0.7)',
     borderColor: 'rgba(232, 255, 71, 1)',
+    borderWidth: 1,
+    borderRadius: 6
+  }]
+}))
+
+const theaterChartData = computed(() => ({
+  labels: Object.keys(stats.value.theatersByMonth || {}).map(m => monthNames[m] || m),
+  datasets: [{
+    label: 'Theater Shows',
+    data: Object.values(stats.value.theatersByMonth || {}),
+    backgroundColor: 'rgba(99, 102, 241, 0.7)',
+    borderColor: 'rgba(99, 102, 241, 1)',
     borderWidth: 1,
     borderRadius: 6
   }]
@@ -112,10 +137,11 @@ const chartOptions = {
 
 const pieOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: 'bottom',
-      labels: { color: '#a1a1aa', padding: 20 }
+      labels: { color: '#a1a1aa', padding: 20, boxWidth: 12 }
     }
   }
 }
@@ -140,7 +166,7 @@ onMounted(async () => {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -191,6 +217,17 @@ onMounted(async () => {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-card:has(canvas) {
+  min-height: 300px;
+}
+
+.chart-card canvas {
+  max-height: 250px !important;
+  margin: 0 auto;
 }
 
 .chart-title {
