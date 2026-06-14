@@ -1,16 +1,14 @@
 package mk.ukim.finki.service.domain.implementation;
 
-import mk.ukim.finki.model.entities.Event;
-import mk.ukim.finki.model.entities.User;
-import mk.ukim.finki.model.entities.Wishlist;
+import mk.ukim.finki.model.entities.*;
 import mk.ukim.finki.model.exceptions.EventNotFoundException;
+import mk.ukim.finki.model.exceptions.TheaterShowNotFoundException;
 import mk.ukim.finki.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.model.exceptions.WishlistAlreadyExistsException;
-import mk.ukim.finki.repository.EventRepository;
-import mk.ukim.finki.repository.UserRepository;
-import mk.ukim.finki.repository.WishlistRepository;
+import mk.ukim.finki.repository.*;
 import mk.ukim.finki.service.domain.WishlistDomainService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,41 +17,69 @@ import java.util.Optional;
 public class WishlistDomainServiceImpl implements WishlistDomainService {
 
     private final WishlistRepository wishlistRepository;
-    private final UserRepository userRepository;
     private final EventRepository eventRepository;
+    private final TheaterShowRepository theaterShowRepository;
+    private final UserRepository userRepository;
 
     public WishlistDomainServiceImpl(WishlistRepository wishlistRepository,
-                                     UserRepository userRepository,
-                                     EventRepository eventRepository) {
+                                     EventRepository eventRepository,
+                                     TheaterShowRepository theaterShowRepository,
+                                     UserRepository userRepository) {
         this.wishlistRepository = wishlistRepository;
-        this.userRepository = userRepository;
         this.eventRepository = eventRepository;
+        this.theaterShowRepository = theaterShowRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Optional<Wishlist> addToWishlist(Long userId, Long eventId) {
+    @Transactional
+    public Optional<Wishlist> addToWishlist(Long userId, Long itemId, String type) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException(eventId));
 
-        if (wishlistRepository.existsByUserAndEvent(user, event)) {
-            throw new WishlistAlreadyExistsException();
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(user);
+
+        if ("THEATER".equalsIgnoreCase(type)) {
+            TheaterShow theaterShow = theaterShowRepository.findById(itemId)
+                    .orElseThrow(() -> new TheaterShowNotFoundException(itemId));
+
+            if (wishlistRepository.existsByUserAndTheaterShow(user, theaterShow)) {
+                throw new WishlistAlreadyExistsException();
+            }
+            wishlist.setTheaterShow(theaterShow);
+            wishlist.setEvent(null);
+        } else {
+            Event event = eventRepository.findById(itemId)
+                    .orElseThrow(() -> new EventNotFoundException(itemId));
+
+            if (wishlistRepository.existsByUserAndEvent(user, event)) {
+                throw new WishlistAlreadyExistsException();
+            }
+            wishlist.setEvent(event);
+            wishlist.setTheaterShow(null);
         }
 
-        Wishlist wishlist = new Wishlist(user, event);
         return Optional.of(wishlistRepository.save(wishlist));
     }
 
     @Override
-    public void removeFromWishlist(Long userId, Long eventId) {
+    @Transactional
+    public void removeFromWishlist(Long userId, Long itemId, String type) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException(eventId));
 
-        wishlistRepository.findByUserAndEvent(user, event)
-                .ifPresent(wishlistRepository::delete);
+        if ("THEATER".equalsIgnoreCase(type)) {
+            TheaterShow theaterShow = theaterShowRepository.findById(itemId)
+                    .orElseThrow(() -> new TheaterShowNotFoundException(itemId));
+            wishlistRepository.findByUserAndTheaterShow(user, theaterShow)
+                    .ifPresent(wishlistRepository::delete);
+        } else {
+            Event event = eventRepository.findById(itemId)
+                    .orElseThrow(() -> new EventNotFoundException(itemId));
+            wishlistRepository.findByUserAndEvent(user, event)
+                    .ifPresent(wishlistRepository::delete);
+        }
     }
 
     @Override
@@ -64,12 +90,16 @@ public class WishlistDomainServiceImpl implements WishlistDomainService {
     }
 
     @Override
-    public boolean isInWishlist(Long userId, Long eventId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException(eventId));
-        return wishlistRepository.existsByUserAndEvent(user, event);
-    }
+    public boolean isInWishlist(Long userId, Long itemId, String type) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return false;
 
+        if ("THEATER".equalsIgnoreCase(type)) {
+            TheaterShow theaterShow = theaterShowRepository.findById(itemId).orElse(null);
+            return theaterShow != null && wishlistRepository.existsByUserAndTheaterShow(user, theaterShow);
+        } else {
+            Event event = eventRepository.findById(itemId).orElse(null);
+            return event != null && wishlistRepository.existsByUserAndEvent(user, event);
+        }
+    }
 }

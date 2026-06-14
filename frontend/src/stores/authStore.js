@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { userApi } from '@/api/userApi'
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref(JSON.parse(localStorage.getItem('user') || 'null'))
+  const user = ref(JSON.parse(sessionStorage.getItem('user') || 'null'))
 
   const isLoggedIn = computed(() => !!user.value)
   const isAdmin    = computed(() => user.value?.role === 'ADMIN')
@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
   try {
     const res = await userApi.login(credentials)
     user.value = res.data
-    localStorage.setItem('user', JSON.stringify(res.data))
+    sessionStorage.setItem('user', JSON.stringify(res.data))
     return true
   } catch (e) {
     error.value = 'Invalid username or password. Please check your credentials or register first.'
@@ -26,6 +26,7 @@ export const useAuthStore = defineStore('auth', () => {
 async function register(data) {
   try {
     await userApi.register(data)
+    error.value = null
     return true
   } catch (e) {
     error.value = 'Registration failed.'
@@ -34,7 +35,7 @@ async function register(data) {
 }
   function logout() {
     user.value = null
-    localStorage.removeItem('user')
+    sessionStorage.removeItem('user')
   }
 
   return { user, isLoggedIn, isAdmin, isDeveloper, error, login, register, logout }

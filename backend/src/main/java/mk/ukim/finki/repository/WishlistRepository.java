@@ -3,6 +3,7 @@ package mk.ukim.finki.repository;
 import mk.ukim.finki.model.entities.Wishlist;
 import mk.ukim.finki.model.entities.User;
 import mk.ukim.finki.model.entities.Event;
+import mk.ukim.finki.model.entities.TheaterShow;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,8 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
     Optional<Wishlist> findByUserAndEvent(User user, Event event);
     boolean existsByUserAndEvent(User user, Event event);
     void deleteByEventId(Long eventId);
+    Optional<Wishlist> findByUserAndTheaterShow(User user, TheaterShow theaterShow);
+    boolean existsByUserAndTheaterShow(User user, TheaterShow theaterShow);
+    void deleteByTheaterShowId(Long theater_show_id);
+    long countByUserUsername (String username);
 }

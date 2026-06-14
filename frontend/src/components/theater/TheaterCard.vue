@@ -1,52 +1,59 @@
 <template>
-  <div class="event-card" @click="$router.push(`/events/${event.id}`)">
+  <div class="theater-card" @click="$router.push(`/theaters/${show.id}`)">
     <div class="card-image">
-      <img v-if="event.image" :src="event.image" :alt="event.title" loading="lazy" />
+      <img
+          v-if="show.image"
+          :src="show.image"
+          :alt="show.title"
+          referrerpolicy="no-referrer"
+          loading="lazy"
+      />
       <div v-else class="card-image-placeholder">🎭</div>
-      <div class="card-city" v-if="event.city">{{ event.city }}</div>
+      <div class="card-city" v-if="show.city">{{ show.city }}</div>
     </div>
 
     <div class="card-body">
-      <h3 class="card-title">{{ event.title }}</h3>
+      <h3 class="card-title">{{ show.title }}</h3>
 
       <div class="card-meta">
-        <span v-if="event.dateStart" class="meta-item">
+        <span v-if="show.dateStart" class="meta-item">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          {{ event.dateStart }}
+          {{ show.dateStart }}
         </span>
-        <span v-if="event.timeStart" class="meta-item">
+        <span v-if="show.timeStart" class="meta-item">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          {{ event.timeStart }}
+          {{ show.timeStart }}
         </span>
-        <span v-if="event.location" class="meta-item">
+        <span v-if="show.location" class="meta-item">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          {{ event.location }}
+          {{ show.location }}
         </span>
       </div>
 
       <div class="card-footer">
-        <span class="card-price" v-if="event.price">{{ event.price }}</span>
-        <span class="card-price" v-else>EVENT</span>
+        <span class="card-price" v-if="show.price">{{ show.price }}</span>
+        <span class="card-price" v-else>THEATER</span>
 
-  <div class="card-actions" @click.stop>
-    <button
-      v-if="auth.isLoggedIn"
-      class="btn btn-ghost btn-sm wishlist-btn"
-      @click="toggleWishlist"
-      :title="isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'"
-    >
-      {{ isWishlisted ? '❤️' : '🤍' }}
-    </button>
+        <div class="card-actions" @click.stop>
+          <button
+              v-if="auth.isLoggedIn"
+              class="btn btn-ghost btn-sm wishlist-btn"
+              @click="toggleWishlist"
+              :title="isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'"
+          >
+            {{ isWishlisted ? '❤️' : '🤍' }}
+          </button>
 
-        <div v-if="auth.isAdmin || auth.isDeveloper" class="card-actions" @click.stop>
-      <RouterLink :to="`/events/edit/${event.id}`" class="btn btn-ghost btn-sm">Edit</RouterLink>
-      <button class="btn btn-danger btn-sm" @click="confirmDelete">Delete</button>
+          <div v-if="auth.isAdmin || auth.isDeveloper" class="card-actions" @click.stop>
+            <RouterLink :to="`/theaters/edit/${show.id}`" class="btn btn-ghost btn-sm">Edit</RouterLink>
+            <button class="btn btn-danger btn-sm" @click="confirmDelete">Delete</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-    </div>
-    <AppModal v-model="showDeleteModal" title="DELETE EVENT">
-      <p style="color: var(--text-muted)">Are you sure you want to delete <strong style="color:var(--text)">{{ event.title }}</strong>?</p>
+
+    <AppModal v-model="showDeleteModal" title="DELETE THEATER SHOW">
+      <p style="color: var(--text-muted)">Are you sure you want to delete <strong style="color:var(--text)">{{ show.title }}</strong>?</p>
       <template #footer>
         <button class="btn btn-ghost btn-sm" @click="showDeleteModal = false">Cancel</button>
         <button class="btn btn-danger btn-sm" @click="handleDelete" :disabled="deleting">
@@ -59,26 +66,26 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useAuthStore }  from '@/stores/authStore'
-import { useEventStore } from '@/stores/eventStore'
+import { useAuthStore } from '@/stores/authStore'
+import { useTheaterStore } from '@/stores/theaterStore'
 import { useWishlistStore } from '@/stores/wishlistStore'
 import AppModal from '@/components/common/AppModal.vue'
 
-const props = defineProps({ event: { type: Object, required: true } })
+const props = defineProps({ show: { type: Object, required: true } })
 
-const auth            = useAuthStore()
-const eventStore      = useEventStore()
-const wishlistStore   = useWishlistStore()
+const auth = useAuthStore()
+const theaterStore = useTheaterStore()
+const wishlistStore = useWishlistStore()
 const showDeleteModal = ref(false)
-const deleting        = ref(false)
+const deleting = ref(false)
 
-const isWishlisted = computed(() => wishlistStore.isInWishlist(props.event.id))
+const isWishlisted = computed(() => wishlistStore.isInWishlist(props.show.id, 'THEATER'))
 
 async function toggleWishlist() {
   if (isWishlisted.value) {
-    await wishlistStore.removeFromWishlist(props.event.id)
+    await wishlistStore.removeFromWishlist(props.show.id, 'THEATER')
   } else {
-    await wishlistStore.addToWishlist(props.event.id)
+    await wishlistStore.addToWishlist(props.show.id, 'THEATER')
   }
 }
 
@@ -86,14 +93,14 @@ function confirmDelete() { showDeleteModal.value = true }
 
 async function handleDelete() {
   deleting.value = true
-  await eventStore.deleteEvent(props.event.id)
-  deleting.value        = false
+  await theaterStore.deleteShow(props.show.id)
+  deleting.value = false
   showDeleteModal.value = false
 }
 </script>
 
 <style scoped>
-.event-card {
+.theater-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -104,7 +111,7 @@ async function handleDelete() {
   flex-direction: column;
 }
 
-.event-card:hover {
+.theater-card:hover {
   border-color: var(--accent);
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(232, 255, 71, 0.08);
@@ -124,7 +131,7 @@ async function handleDelete() {
   transition: transform 0.4s ease;
 }
 
-.event-card:hover .card-image img { transform: scale(1.04); }
+.theater-card:hover .card-image img { transform: scale(1.04); }
 
 .card-image-placeholder {
   display: flex;
@@ -191,7 +198,7 @@ async function handleDelete() {
 .card-price {
   font-weight: 600;
   font-size: 0.9rem;
-  color: var(--accent);
+  color: lime;
 }
 
 .card-price.free { color: var(--success); }

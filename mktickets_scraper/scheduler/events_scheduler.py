@@ -7,18 +7,18 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT_DIR))
 
-# Add scraper_postgres_connector to path for relative imports.
-CONNECTOR_DIR = ROOT_DIR / "scraper_postgres_connector"
+# Add db_postgres_manager to path for relative imports.
+CONNECTOR_DIR = ROOT_DIR / "db_postgres_manager"
 sys.path.insert(0, str(CONNECTOR_DIR))
 
-from mktickets_scraper.scrapers.scraper_prod import run_scraper
+from mktickets_scraper.scrapers.scraper_prod import run_event_scraper
 from services.event_service import load_events_from_json
 
 
-def job():
+def event_job():
     print("Starting scraping job...")
 
-    events = run_scraper()
+    events = run_event_scraper()
 
     if events:
         load_events_from_json(events)
@@ -26,13 +26,14 @@ def job():
     else:
         print("No events scraped!")
 
+event_job()
 
-schedule.every(24).hours.do(job)
+print("Task completed successfully.")
+sys.exit(0)
 
-print("Scheduler started - running every 24 hours!")
+# schedule.every(24).hours.do(event_job)
+# print("Scheduler started - running every 24 hours!")
 
-job()
-
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(10)

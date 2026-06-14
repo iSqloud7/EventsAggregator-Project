@@ -11,9 +11,10 @@
         <h1 class="page-title fade-up-2">
           YOUR NEXT<br /><span class="accent">EXPERIENCE</span><br />AWAITS
         </h1>
-        <p class="hero-sub fade-up-3">Concerts, festivals, theatre & more — all in one place.</p>
+        <p class="hero-sub fade-up-3">Concerts, festivals, movies, theater shows & more — all in one place.</p>
         <div class="hero-actions fade-up-4">
           <RouterLink to="/events" class="btn btn-primary">Browse Events</RouterLink>
+          <RouterLink to="/theaters" class="btn btn-primary">Browse Theater Shows</RouterLink>
           <RouterLink v-if="!auth.isLoggedIn" to="/register" class="btn btn-ghost">Create Account</RouterLink>
         </div>
       </div>
@@ -70,7 +71,7 @@ import EventCard from '@/components/events/EventCard.vue'
 const auth       = useAuthStore()
 const eventStore = useEventStore()
 
-const previewEvents = computed(() => eventStore.events.slice(0, 6))
+const previewEvents = computed(() => eventStore.events.slice(0, 3))
 
 onMounted(() => {
   if (!eventStore.events.length) eventStore.fetchAll()
@@ -78,7 +79,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Hero */
 .hero {
   position: relative;
   min-height: 88vh;
@@ -151,7 +151,6 @@ onMounted(() => {
   flex-wrap: wrap;
 }
 
-/* Stats */
 .stats-section {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -182,7 +181,6 @@ onMounted(() => {
   color: var(--text-muted);
 }
 
-/* Latest events */
 .latest-section { padding: 5rem 0; }
 
 .section-header {

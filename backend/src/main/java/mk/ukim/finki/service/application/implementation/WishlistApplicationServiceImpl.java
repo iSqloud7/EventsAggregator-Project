@@ -18,14 +18,14 @@ public class WishlistApplicationServiceImpl implements WishlistApplicationServic
     }
 
     @Override
-    public Optional<DisplayWishlistDTO> addToWishlist(Long userId, Long eventId) {
-        return wishlistDomainService.addToWishlist(userId, eventId)
+    public Optional<DisplayWishlistDTO> addToWishlist(Long userId, Long itemId, String type) {
+        return wishlistDomainService.addToWishlist(userId, itemId, type)
                 .map(DisplayWishlistDTO::from);
     }
 
     @Override
-    public void removeFromWishlist(Long userId, Long eventId) {
-        wishlistDomainService.removeFromWishlist(userId, eventId);
+    public void removeFromWishlist(Long userId, Long itemId, String type) {
+        wishlistDomainService.removeFromWishlist(userId, itemId, type);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class WishlistApplicationServiceImpl implements WishlistApplicationServic
     }
 
     @Override
-    public boolean isInWishlist(Long userId, Long eventId) {
-        return wishlistDomainService.isInWishlist(userId, eventId);
+    public boolean isInWishlist(Long userId, Long itemId, String type) {
+        return wishlistDomainService.isInWishlist(userId, itemId, type);
     }
 }
