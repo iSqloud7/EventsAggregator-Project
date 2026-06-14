@@ -25,7 +25,7 @@
           </div>
           <div class="stat-card">
             <div class="stat-value">{{ stats.totalWishlists }}</div>
-            <div class="stat-label">Total Wishlists</div>
+            <div class="stat-label">Total Events in Wishlist</div>
           </div>
         </div>
 
